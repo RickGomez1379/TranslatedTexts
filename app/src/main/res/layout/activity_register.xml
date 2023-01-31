@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".Register">
 
     <EditText
         android:id="@+id/RegisterEmail"
@@ -38,9 +38,9 @@
         android:id="@+id/RegisterTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login"
+        android:text="@string/register"
         android:textColor="#B7CAFF"
-        android:textSize="28dp"
+        android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/RegisterEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#2699FB"
-        android:text="@string/login"
+        android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -65,7 +65,7 @@
         android:id="@+id/LoginHere"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/registerhere"
+        android:text="@string/login_here"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/RegisterButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,4 +73,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterPassword"
         app:layout_constraintVertical_bias="0.128" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
