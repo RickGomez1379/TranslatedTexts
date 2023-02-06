@@ -6,4 +6,5 @@
     <string name="registerhere">Don\'t have an account? Register Here</string>
     <string name="register">Register</string>
     <string name="login_here">Already have an account? Login Here</string>
+    <string name="reenter">Re-enter Password</string>
 </resources>

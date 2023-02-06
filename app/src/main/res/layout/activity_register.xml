@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint = "@string/e_mail"
+        android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/RegisterPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.852" />
+        app:layout_constraintVertical_bias="0.919" />
 
     <EditText
         android:id="@+id/RegisterPassword"
@@ -31,8 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.543" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/RegisterTitleText"
@@ -69,9 +68,20 @@
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/RegisterButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterPassword"
-        app:layout_constraintVertical_bias="0.128" />
+        app:layout_constraintVertical_bias="0.691" />
+
+    <EditText
+        android:id="@+id/ReenterPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:hint="@string/reenter"
+        app:layout_constraintBottom_toTopOf="@+id/LoginHere"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RegisterPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
