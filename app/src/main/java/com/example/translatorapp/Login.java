@@ -3,6 +3,7 @@ package com.example.translatorapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +42,13 @@ public class Login extends AppCompatActivity {
                     HandleLogin();
             }
         });
+        registerInstead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    startActivity(new Intent(Login.this, Register.class));
+                    finish();
+            }
+        });
     }
 
     //Login Function
@@ -49,8 +57,11 @@ public class Login extends AppCompatActivity {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful())
+                if(task.isSuccessful()) {
                     Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(Login.this, MainActivity.class));
+                    finish();
+                }
                 else
                     Toast.makeText(Login.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }

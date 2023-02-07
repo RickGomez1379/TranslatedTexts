@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     String[] toLanguages = {"To", "English", "Afrikaans", "Arabic", "Belarusian", "Bulgarian",
             "Bengali", "Catalan", "Czech", "Welsh", "Hindi", "Urdu"};
 
-    private static final int REQUEST_PERMISSION_CODE = 1;
     int languageCode, fromLanguageCode, toLanguageCode = 0;
 
     @Override
