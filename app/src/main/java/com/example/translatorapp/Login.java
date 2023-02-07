@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,6 +30,17 @@ public class Login extends AppCompatActivity {
         email = findViewById(R.id.LoginEmail);
         password = findViewById(R.id.LoginPassword);
 
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(email.getText().toString() == "")
+                    Toast.makeText(Login.this, "Please Enter an Email. ", Toast.LENGTH_SHORT).show();
+                else if(password.getText().toString() == "")
+                    Toast.makeText(Login.this, "Please Enter a Password. ", Toast.LENGTH_SHORT).show();
+                else
+                    HandleLogin();
+            }
+        });
     }
 
     //Login Function
