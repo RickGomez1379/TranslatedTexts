@@ -31,6 +31,13 @@ public class Login extends AppCompatActivity {
         email = findViewById(R.id.LoginEmail);
         password = findViewById(R.id.LoginPassword);
 
+        //Checks if User is already Signed in
+        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        {
+            startActivity(new Intent(Login.this, MainActivity.class));
+            finish();
+        }
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
