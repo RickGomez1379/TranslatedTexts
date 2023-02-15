@@ -32,9 +32,9 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.LoginPassword);
 
         //Checks if User is already Signed in
-        if(FirebaseAuth.getInstance().getCurrentUser() == null)
+        if(FirebaseAuth.getInstance().getCurrentUser() != null)
         {
-            startActivity(new Intent(Login.this, MainActivity.class));
+            startActivity(new Intent(Login.this, AllMessages.class));
             finish();
         }
 
@@ -66,7 +66,7 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
                     Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Login.this, MainActivity.class));
+                    startActivity(new Intent(Login.this, AllMessages.class));
                     finish();
                 }
                 else
