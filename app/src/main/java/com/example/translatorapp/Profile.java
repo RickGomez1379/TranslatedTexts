@@ -23,8 +23,11 @@ public class Profile extends AppCompatActivity {
         logOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Sign Out
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(Profile.this, Login.class));
+
+                //Changes Screen and make sure User can't go back
+                startActivity(new Intent(Profile.this, Login.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP));
                 finish();
             }
         });

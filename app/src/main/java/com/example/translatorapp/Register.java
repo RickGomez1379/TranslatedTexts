@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
 
@@ -62,6 +63,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(email.getText().toString(), ""));
                     Toast.makeText(Register.this, "Signed Up Successfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(Register.this, AllMessages.class));
                     finish();
