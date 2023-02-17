@@ -40,6 +40,7 @@ public class AllMessages extends AppCompatActivity {
         onUserClickListener = new UsersAdapter.OnUserClickListener() {
             @Override
             public void onUserClicked(int position) {
+                startActivity(new Intent(AllMessages.this, Message.class));
                 Toast.makeText(AllMessages.this, "Tapped on " + users.get(position).getEmail(), Toast.LENGTH_SHORT).show();
             }
         };
