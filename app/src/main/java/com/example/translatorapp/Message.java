@@ -28,27 +28,30 @@ public class Message extends AppCompatActivity {
     private ProgressBar progressMsg;
     private ArrayList<MessageClass> messages;
     private ImageView sendImg;
-    private String emailofMessenger, chatroomId;
+    private String usernameofMessenger, emailofMessenger, chatroomId;
     private MessageAdapter messageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
-        emailofMessenger = getIntent().getStringExtra("useremail_of_messenger");
+        usernameofMessenger = getIntent().getStringExtra("username_of_messenger");
+        emailofMessenger = getIntent().getStringExtra("email_of_messenger");
+
         messagesRecyclerView = findViewById(R.id.recyclerMessage);
         edtMessage = findViewById(R.id.edtMessage);
         txtChattingWith = findViewById(R.id.userChattingWith);
         progressMsg = findViewById(R.id.progressBarMessage);
+
         messages = new ArrayList<>();
         sendImg = findViewById(R.id.sendImgView);
         messageAdapter = new MessageAdapter(messages, getIntent(), Message.this);
-        txtChattingWith.setText(emailofMessenger);
+        txtChattingWith.setText(usernameofMessenger);
         sendImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Send Message to Database
-                FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push().setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(), emailofMessenger, edtMessage.getText().toString()));
+                FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push().setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(), usernameofMessenger, edtMessage.getText().toString()));
                 edtMessage.setText("");
             }
         });
@@ -64,12 +67,15 @@ public class Message extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String myEmail = snapshot.getValue(User.class).getEmail();
-                if(emailofMessenger.compareTo(myEmail) > 0 ) {
-                    chatroomId = myEmail + emailofMessenger;
+                String username = snapshot.getValue(User.class).getUsername();
+                if(usernameofMessenger.compareTo(username) > 0 ) {
+                    chatroomId = username + usernameofMessenger;
+                }
+                else if(usernameofMessenger.compareTo(username)==0){
+                    chatroomId = username + usernameofMessenger;
                 }
                 else {
-                    chatroomId = emailofMessenger + myEmail;
+                    chatroomId = usernameofMessenger + username;
                 }
                 attachMessageListener(chatroomId);
 
@@ -86,7 +92,7 @@ public class Message extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Clear Messages before Adding Data
+                //Clear Previous Messages
                 messages.clear();
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     messages.add(dataSnapshot.getValue((MessageClass.class)));

@@ -43,7 +43,9 @@ public class AllMessages extends AppCompatActivity {
             @Override
             public void onUserClicked(int position) {
 
-                startActivity(new Intent(AllMessages.this, Message.class).putExtra("useremail_of_messenger", users.get(position).getEmail()));
+                startActivity(new Intent(AllMessages.this, Message.class)
+                        .putExtra("username_of_messenger", users.get(position).getUsername())
+                        .putExtra("email_of_messenger", users.get(position).getEmail()));
 
             }
         };

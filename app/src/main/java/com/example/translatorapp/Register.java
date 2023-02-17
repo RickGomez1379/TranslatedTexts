@@ -24,6 +24,8 @@ public class Register extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private EditText reenterPassword;
+    private EditText username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,7 @@ public class Register extends AppCompatActivity {
         email = findViewById(R.id.RegisterEmail);
         password = findViewById(R.id.RegisterPassword);
         reenterPassword = findViewById(R.id.ReenterPassword);
-
+        username = findViewById(R.id.RegisterUsername);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +65,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(email.getText().toString(), ""));
+                    FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(email.getText().toString(), "", username.getText().toString()));
                     Toast.makeText(Register.this, "Signed Up Successfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(Register.this, AllMessages.class));
                     finish();

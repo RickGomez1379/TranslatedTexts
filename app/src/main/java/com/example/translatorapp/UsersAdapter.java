@@ -42,7 +42,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull UserHolder holder, int position) {
-        holder.userEmail.setText(users.get(position).getEmail());
+        holder.username.setText(users.get(position).getEmail());
     }
 
     @Override
@@ -52,8 +52,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> 
 
     class UserHolder extends RecyclerView.ViewHolder{
 
-        TextView userEmail;
+        TextView username;
         ImageView userPhoto;
+
         public UserHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -63,7 +64,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> 
                     listener.onUserClicked(getAdapterPosition());
                 }
             });
-            userEmail = itemView.findViewById(R.id.userEmailTxt);
+            username = itemView.findViewById(R.id.usernameTxt);
             userPhoto = itemView.findViewById((R.id.friendImg));
         }
     }
