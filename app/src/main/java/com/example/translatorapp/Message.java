@@ -2,6 +2,7 @@ package com.example.translatorapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class Message extends AppCompatActivity {
     private ArrayList<MessageClass> messages;
     private ImageView sendImg;
     private String emailofMessenger, chatroomId;
+    private MessageAdapter messageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,19 @@ public class Message extends AppCompatActivity {
         progressMsg = findViewById(R.id.progressBarMessage);
         messages = new ArrayList<>();
         sendImg = findViewById(R.id.sendImgView);
-
+        messageAdapter = new MessageAdapter(messages, getIntent(), Message.this);
         txtChattingWith.setText(emailofMessenger);
+        sendImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Send Message to Database
+                FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push().setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(), emailofMessenger, edtMessage.getText().toString()));
+                edtMessage.setText("");
+            }
+        });
+        //Sets up Recycler View
+        messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        messagesRecyclerView.setAdapter(messageAdapter);
         setUpChatRoom();
     }
 
@@ -78,6 +91,7 @@ public class Message extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot:snapshot.getChildren()){
                     messages.add(dataSnapshot.getValue((MessageClass.class)));
                 }
+                messageAdapter.notifyDataSetChanged();
                 messagesRecyclerView.scrollToPosition(messages.size() - 1);
                 messagesRecyclerView.setVisibility(View.VISIBLE);
                 progressMsg.setVisibility(View.GONE);
