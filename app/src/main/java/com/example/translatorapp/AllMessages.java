@@ -37,11 +37,14 @@ public class AllMessages extends AppCompatActivity {
         bar = findViewById(R.id.messagesProgressBar);
         recyclerView = findViewById(R.id.messagesRecycler);
 
+
+        //When Users is Clicked, Opens Messages between Users
         onUserClickListener = new UsersAdapter.OnUserClickListener() {
             @Override
             public void onUserClicked(int position) {
-                startActivity(new Intent(AllMessages.this, Message.class));
-                Toast.makeText(AllMessages.this, "Tapped on " + users.get(position).getEmail(), Toast.LENGTH_SHORT).show();
+
+                startActivity(new Intent(AllMessages.this, Message.class).putExtra("useremail_of_messenger", users.get(position).getEmail()));
+
             }
         };
         getUsers();
