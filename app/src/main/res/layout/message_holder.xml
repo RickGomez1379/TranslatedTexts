@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:maxWidth="200dp"
             android:padding="8dp"
-            android:text="yurrrrrrrrrrrrrrrrrrrrrrr rrrrrrrrrrrrggg"
+            android:text=""
             android:layout_marginHorizontal="90dp"
             android:background="@drawable/messageinput"/>
 

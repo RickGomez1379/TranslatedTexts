@@ -12,6 +12,7 @@ public class User {
     public User(String email, String profilePhoto, String username) {
         this.email = email;
         this.profilePhoto = profilePhoto;
+        this.username = username;
     }
 
     public String getUsername() {

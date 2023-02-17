@@ -50,9 +50,17 @@ public class Message extends AppCompatActivity {
         sendImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Send Message to Database
-                FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push().setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(), usernameofMessenger, edtMessage.getText().toString()));
-                edtMessage.setText("");
+
+                if(edtMessage.getText().toString().isEmpty())
+                    return;
+
+                else {
+                    //Send Message to Database
+                    FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push()
+                            .setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                    usernameofMessenger, edtMessage.getText().toString()));
+                    edtMessage.setText("");
+                }
             }
         });
         //Sets up Recycler View

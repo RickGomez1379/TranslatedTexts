@@ -46,7 +46,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         constraintSet.clear(R.id.messageCarView, ConstraintSet.LEFT);
         constraintSet.clear(R.id.messageContent, ConstraintSet.LEFT);
         constraintSet.connect(R.id.messageCarView, ConstraintSet.RIGHT, R.id.cLayout, ConstraintSet.RIGHT, 0);
-        constraintSet.connect(R.id.messageContent, ConstraintSet.RIGHT, R.id.messageCarView, ConstraintSet.RIGHT, 0);
+        constraintSet.connect(R.id.messageContent, ConstraintSet.RIGHT, R.id.messageCarView, ConstraintSet.LEFT, 0);
         constraintSet.applyTo(cl);
 
     }
