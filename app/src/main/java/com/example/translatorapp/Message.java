@@ -11,12 +11,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
 import java.util.ArrayList;
 
@@ -55,11 +63,12 @@ public class Message extends AppCompatActivity {
                     return;
 
                 else {
+
+                    if(txtChattingWith.getText().toString().equals("Rick"))
                     //Send Message to Database
-                    FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push()
-                            .setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
-                                    usernameofMessenger, edtMessage.getText().toString()));
-                    edtMessage.setText("");
+                    TranslateText(11, 13, edtMessage.getText().toString());
+                    else
+                        TranslateText(13, 11, edtMessage.getText().toString());
                 }
             }
         });
@@ -113,6 +122,57 @@ public class Message extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+    private void TranslateText(int fromLanguage, int toLanguage, String source)
+    {
+
+        FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
+                .setSourceLanguage(fromLanguage)
+                .setTargetLanguage(toLanguage)
+                .build();
+
+        FirebaseTranslator translator = FirebaseNaturalLanguage.getInstance().getTranslator(options);
+
+        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder().build();
+
+        translator.downloadModelIfNeeded(conditions).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+
+                translator.translate(source).addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+
+
+                        //Send Message to Database
+                        FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push()
+                                .setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                        usernameofMessenger, edtMessage.getText().toString()));
+
+                        //Send Message to Database
+                        FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push()
+                                .setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
+                                        usernameofMessenger, s));
+
+                        edtMessage.setText("");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(Message.this,
+                                "Fail to Translate: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(Message.this,
+                        "Failed to Download Model: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
