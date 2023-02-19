@@ -15,10 +15,10 @@
         android:hint="Username"
         app:layout_constraintBottom_toTopOf="@+id/RegisterEmail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterTitleText"
-        app:layout_constraintVertical_bias="0.809" />
+        app:layout_constraintVertical_bias="0.38" />
 
     <EditText
         android:id="@+id/RegisterEmail"
@@ -29,10 +29,10 @@
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/RegisterPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.919" />
+        app:layout_constraintVertical_bias="0.884" />
 
     <EditText
         android:id="@+id/RegisterPassword"
@@ -45,7 +45,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.421" />
 
     <TextView
         android:id="@+id/RegisterTitleText"
@@ -68,10 +69,10 @@
         android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterPassword"
-        app:layout_constraintVertical_bias="0.513" />
+        app:layout_constraintVertical_bias="0.648" />
 
     <TextView
         android:id="@+id/LoginHere"
@@ -83,18 +84,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/RegisterPassword"
-        app:layout_constraintVertical_bias="0.691" />
+        app:layout_constraintVertical_bias="0.918" />
 
     <EditText
         android:id="@+id/ReenterPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="@string/reenter"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/LoginHere"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RegisterPassword"
+        app:layout_constraintVertical_bias="0.237" />
+
+    <Spinner
+        android:id="@+id/languageSpinner"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/LoginHere"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RegisterPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/ReenterPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
