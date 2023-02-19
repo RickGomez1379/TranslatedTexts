@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +28,7 @@ public class AllMessages extends AppCompatActivity {
     private ProgressBar bar;
     private UsersAdapter usersAdapter;
     UsersAdapter.OnUserClickListener onUserClickListener;
+    private int userLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +45,12 @@ public class AllMessages extends AppCompatActivity {
             @Override
             public void onUserClicked(int position) {
 
+                //Carry data to Messages Activity
                 startActivity(new Intent(AllMessages.this, Message.class)
                         .putExtra("username_of_messenger", users.get(position).getUsername())
-                        .putExtra("email_of_messenger", users.get(position).getEmail()));
+                        .putExtra("email_of_messenger", users.get(position).getEmail())
+                        .putExtra("language_of_messenger", users.get(position).getLanguageCode())
+                        .putExtra("language_of_user", userLanguage));
 
             }
         };
@@ -77,8 +82,14 @@ public class AllMessages extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot data : snapshot.getChildren()){
+                    //Gets Language Code of User's
+                    if(data.getValue(User.class).getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
+                        userLanguage= data.getValue(User.class).getLanguageCode();
+                    }
+                    //Populate Array
                     users.add(data.getValue(User.class));
                 }
+                //Displays Users in this Activity
                 usersAdapter = new UsersAdapter(users, AllMessages.this,onUserClickListener);
                 recyclerView.setLayoutManager(new LinearLayoutManager(AllMessages.this));
                 recyclerView.setAdapter(usersAdapter);

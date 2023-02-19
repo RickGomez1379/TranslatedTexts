@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
@@ -38,23 +37,37 @@ public class Message extends AppCompatActivity {
     private ImageView sendImg;
     private String usernameofMessenger, emailofMessenger, chatroomId;
     private MessageAdapter messageAdapter;
+    private int messengerLanguage;
+    private int userLanguage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
+
+        //Gets Receiver Information
         usernameofMessenger = getIntent().getStringExtra("username_of_messenger");
         emailofMessenger = getIntent().getStringExtra("email_of_messenger");
+        messengerLanguage = getIntent().getIntExtra("language_of_messenger", 1);
+
+        //Gets Sender's Preferred Language
+        userLanguage = getIntent().getIntExtra("language_of_user",1);
 
         messagesRecyclerView = findViewById(R.id.recyclerMessage);
         edtMessage = findViewById(R.id.edtMessage);
+
+        //Receiver
         txtChattingWith = findViewById(R.id.userChattingWith);
+
         progressMsg = findViewById(R.id.progressBarMessage);
+
 
         messages = new ArrayList<>();
         sendImg = findViewById(R.id.sendImgView);
         messageAdapter = new MessageAdapter(messages, getIntent(), Message.this);
         txtChattingWith.setText(usernameofMessenger);
+
         sendImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,11 +77,9 @@ public class Message extends AppCompatActivity {
 
                 else {
 
-                    if(txtChattingWith.getText().toString().equals("Rick"))
-                    //Send Message to Database
-                    TranslateText(11, 13, edtMessage.getText().toString());
-                    else
-                        TranslateText(13, 11, edtMessage.getText().toString());
+                    //Send Original and Translated Message to Database and Receiver
+                    TranslateText(userLanguage, messengerLanguage, edtMessage.getText().toString());
+
                 }
             }
         });
@@ -106,6 +117,8 @@ public class Message extends AppCompatActivity {
     }
 
     private void attachMessageListener(String chatroomId) {
+
+        //Populates ChatRoom Messages
         FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,31 +142,35 @@ public class Message extends AppCompatActivity {
     }
     private void TranslateText(int fromLanguage, int toLanguage, String source)
     {
-
+        //Sets Translator Options
         FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
                 .setSourceLanguage(fromLanguage)
                 .setTargetLanguage(toLanguage)
                 .build();
 
+        //Creates Translator
         FirebaseTranslator translator = FirebaseNaturalLanguage.getInstance().getTranslator(options);
 
+        //Creates a Model Builder
         FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder().build();
 
+        //Downloads Language Models if Needed
         translator.downloadModelIfNeeded(conditions).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
 
+                //Translates Messages
                 translator.translate(source).addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String s) {
 
 
-                        //Send Message to Database
+                        //Send Original Message to Database
                         FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push()
                                 .setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
                                         usernameofMessenger, edtMessage.getText().toString()));
 
-                        //Send Message to Database
+                        //Send Translated Message to Database
                         FirebaseDatabase.getInstance().getReference("messages/" + chatroomId).push()
                                 .setValue(new MessageClass(FirebaseAuth.getInstance().getCurrentUser().getEmail(),
                                         usernameofMessenger, s));

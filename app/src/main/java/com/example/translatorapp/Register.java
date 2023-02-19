@@ -23,29 +23,27 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguag
 
 public class Register extends AppCompatActivity {
 
-    private Button register;
-    private TextView loginInstead;
     private EditText email;
     private EditText password;
     private EditText reenterPassword;
     private EditText username;
-    private Spinner languageSpinner;
     String[] Languages = { "English", "Afrikaans", "Arabic", "Belarusian", "Bulgarian",
             "Bengali", "Catalan", "Czech", "Welsh", "Hindi", "Urdu"};
-    private int languageCode;
+    private int languageCode = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        register = findViewById(R.id.RegisterButton);
-        loginInstead = findViewById(R.id.LoginHere);
+        Button register = findViewById(R.id.RegisterButton);
+        TextView loginInstead = findViewById(R.id.LoginHere);
         email = findViewById(R.id.RegisterEmail);
         password = findViewById(R.id.RegisterPassword);
         reenterPassword = findViewById(R.id.ReenterPassword);
         username = findViewById(R.id.RegisterUsername);
-        languageSpinner = findViewById(R.id.languageSpinner);
+        Spinner languageSpinner = findViewById(R.id.languageSpinner);
 
-        //
+
+        //Register User
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,6 +57,8 @@ public class Register extends AppCompatActivity {
                     HandleRegister();
             }
         });
+
+        //Navigates to Login Activity
         loginInstead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +66,9 @@ public class Register extends AppCompatActivity {
                 finish();
             }
         });
+
+        //Gets Users Preferred Language
+        //By Default: English
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
@@ -77,7 +80,8 @@ public class Register extends AppCompatActivity {
 
             }
         });
-        //Adapter to display translates "from" languages
+
+        //Adapter to display languages
         ArrayAdapter fromAdapter = new ArrayAdapter(this,R.layout.spinner_item,Languages);
         fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(fromAdapter);
@@ -90,8 +94,9 @@ public class Register extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
+                    //Creates User Object in Realtime Database
                     FirebaseDatabase.getInstance().getReference("user/" + FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .setValue(new User(email.getText().toString(), "", username.getText().toString()));
+                            .setValue(new User(email.getText().toString(), "", username.getText().toString(), languageCode));
                     Toast.makeText(Register.this, "Signed Up Successfully", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(Register.this, AllMessages.class));
                     finish();
@@ -101,8 +106,9 @@ public class Register extends AppCompatActivity {
             }
         });
     }
+    //Gets User's Preferred Language to Store as an Int
     private int getLanguageCode(String fromLanguage) {
-        int languageCode = -1;
+
         switch (fromLanguage) {
             case "English":
                 languageCode = FirebaseTranslateLanguage.EN;
@@ -138,7 +144,7 @@ public class Register extends AppCompatActivity {
                 languageCode = FirebaseTranslateLanguage.UR;
                 break;
             default:
-                languageCode = 0;
+                languageCode = 1;
                 break;
         }
         return languageCode;
