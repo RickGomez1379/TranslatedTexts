@@ -62,11 +62,11 @@ public class Message extends AppCompatActivity {
 
         progressMsg = findViewById(R.id.progressBarMessage);
 
+        txtChattingWith.setText(usernameofMessenger);
+        sendImg = findViewById(R.id.sendImgView);
 
         messages = new ArrayList<>();
-        sendImg = findViewById(R.id.sendImgView);
-        messageAdapter = new MessageAdapter(messages, getIntent(), Message.this);
-        txtChattingWith.setText(usernameofMessenger);
+
 
         sendImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +84,7 @@ public class Message extends AppCompatActivity {
             }
         });
         //Sets up Recycler View
+        messageAdapter = new MessageAdapter(messages, Message.this);
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         messagesRecyclerView.setAdapter(messageAdapter);
         setUpChatRoom();
