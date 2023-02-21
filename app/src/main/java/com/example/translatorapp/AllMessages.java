@@ -11,8 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +30,7 @@ public class AllMessages extends AppCompatActivity {
     private UsersAdapter usersAdapter;
     UsersAdapter.OnUserClickListener onUserClickListener;
     private int userLanguage;
+    BottomNavigationView nav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,26 @@ public class AllMessages extends AppCompatActivity {
         users = new ArrayList<>();
         bar = findViewById(R.id.messagesProgressBar);
         recyclerView = findViewById(R.id.messagesRecycler);
+
+        //Navigation Menu Bar
+        nav= findViewById(R.id.AllMessagesNavigationView);
+
+        nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                //No Finish() so User can go back
+                if(item.getItemId() == R.id.ContactsNav) {
+                    startActivity(new Intent(AllMessages.this, Contacts.class));
+
+                }
+                else if (item.getItemId()==R.id.Settings) {
+                    startActivity(new Intent(AllMessages.this, Profile.class));
+                }
+                return false;
+
+            }
+        });
 
 
         //When Users is Clicked, Opens Messages between Users

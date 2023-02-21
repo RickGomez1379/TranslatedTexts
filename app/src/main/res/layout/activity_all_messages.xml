@@ -27,4 +27,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/AllMessagesNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2699FB"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/menu_btm_navigation" />
 </androidx.constraintlayout.widget.ConstraintLayout>
