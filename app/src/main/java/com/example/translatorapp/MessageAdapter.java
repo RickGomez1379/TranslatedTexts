@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -19,10 +21,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
 
     private ArrayList<MessageClass> messages;
     private Context context;
+    private String senderImg;
+    private String receiverImg;
 
-    public MessageAdapter(ArrayList<MessageClass> messages, Context context) {
+    public MessageAdapter(ArrayList<MessageClass> messages, Context context, String sender, String receiver) {
         this.messages = messages;
         this.context = context;
+        this.senderImg = sender;
+        this.receiverImg = receiver;
     }
 
     @NonNull
@@ -40,7 +46,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     //Change Constraint Determined by Which User is Messaging
         //User's Message on the Right Side
     if(messages.get(position).getSender().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
-
+        Glide.with(context).load(senderImg).error(R.drawable.accounticon)
+                .placeholder(R.drawable.accounticon).into(holder.userImage);
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(cl);
         constraintSet.clear(R.id.messageCarView, ConstraintSet.LEFT);
@@ -51,6 +58,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
 
     }
     else{
+        Glide.with(context).load(receiverImg).error(R.drawable.accounticon)
+                .placeholder(R.drawable.accounticon).into(holder.userImage);
         ConstraintSet constraintSet = new ConstraintSet();
         constraintSet.clone(cl);
         constraintSet.clear(R.id.messageCarView, ConstraintSet.RIGHT);
@@ -71,12 +80,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     class MessageHolder extends RecyclerView.ViewHolder{
         ConstraintLayout cl;
         TextView txtMessage;
+        ImageView userImage;
 
 
         public MessageHolder(@NonNull View itemView){
             super(itemView);
             cl = itemView.findViewById(R.id.cLayout);
             txtMessage = itemView.findViewById(R.id.messageContent);
+            userImage = itemView.findViewById(R.id.smallImgView);
         }
     }
 

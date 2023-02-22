@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -84,7 +85,12 @@ public class Message extends AppCompatActivity {
             }
         });
         //Sets up Recycler View
-        messageAdapter = new MessageAdapter(messages, Message.this);
+        messageAdapter = new MessageAdapter(messages, Message.this, getIntent()
+                .getStringExtra("img_of_user"),getIntent()
+                .getStringExtra("img_of_messenger"));
+
+        Glide.with(Message.this).load(getIntent().getStringExtra("img_of_messenger"))
+                .placeholder(R.drawable.accounticon).error(R.drawable.accounticon);
         messagesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         messagesRecyclerView.setAdapter(messageAdapter);
         setUpChatRoom();

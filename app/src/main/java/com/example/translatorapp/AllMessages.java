@@ -35,6 +35,7 @@ public class AllMessages extends AppCompatActivity {
     UsersAdapter.OnUserClickListener onUserClickListener;
     private int userLanguage;
     BottomNavigationView nav;
+    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +80,8 @@ public class AllMessages extends AppCompatActivity {
                 startActivity(new Intent(AllMessages.this, Message.class)
                         .putExtra("username_of_messenger", users.get(position).getUsername())
                         .putExtra("email_of_messenger", users.get(position).getEmail())
+                        .putExtra("img_of_messenger", users.get(position).getProfilePhoto())
+                        .putExtra("img_of_user", url)
                         .putExtra("language_of_messenger", users.get(position).getLanguageCode())
                         .putExtra("language_of_user", userLanguage));
 
@@ -115,10 +118,12 @@ public class AllMessages extends AppCompatActivity {
                     //Gets Language Code of User's
                     if(data.getValue(User.class).getEmail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().toLowerCase(Locale.ROOT))){
                         userLanguage= data.getValue(User.class).getLanguageCode();
+                        url = data.getValue(User.class).getProfilePhoto();
                     }
-                    else
-                    //Populate Array
-                    users.add(data.getValue(User.class));
+                    else {
+                        //Populate Array
+                        users.add(data.getValue(User.class));
+                    }
                 }
                 //Displays Users in this Activity
                 usersAdapter = new UsersAdapter(users, AllMessages.this,onUserClickListener);
