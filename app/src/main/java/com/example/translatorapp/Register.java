@@ -28,7 +28,7 @@ public class Register extends AppCompatActivity {
     private EditText reenterPassword;
     private EditText username;
     String[] Languages = { "English", "Afrikaans", "Arabic", "Belarusian", "Bulgarian",
-            "Bengali", "Catalan", "Czech", "Welsh", "Hindi", "Urdu"};
+            "Bengali", "Catalan", "Czech", "Welsh", "Hindi", "Urdu", "Spanish", "Japanese"};
     private int languageCode = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +142,12 @@ public class Register extends AppCompatActivity {
                 break;
             case "Urdu":
                 languageCode = FirebaseTranslateLanguage.UR;
+                break;
+            case "Spanish":
+                languageCode = FirebaseTranslateLanguage.ES;
+                break;
+            case "Japanese":
+                languageCode = FirebaseTranslateLanguage.JA;
                 break;
             default:
                 languageCode = 1;
