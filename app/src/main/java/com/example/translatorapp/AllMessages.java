@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AllMessages extends AppCompatActivity {
 
@@ -105,9 +106,10 @@ public class AllMessages extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot data : snapshot.getChildren()){
                     //Gets Language Code of User's
-                    if(data.getValue(User.class).getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
+                    if(data.getValue(User.class).getEmail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().toLowerCase(Locale.ROOT))){
                         userLanguage= data.getValue(User.class).getLanguageCode();
                     }
+                    else
                     //Populate Array
                     users.add(data.getValue(User.class));
                 }
