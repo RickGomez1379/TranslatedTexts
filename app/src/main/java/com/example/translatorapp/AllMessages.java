@@ -1,11 +1,14 @@
 package com.example.translatorapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +45,9 @@ public class AllMessages extends AppCompatActivity {
         bar = findViewById(R.id.messagesProgressBar);
         recyclerView = findViewById(R.id.messagesRecycler);
 
+        //Change Action Bar
+        ChangeActionBar("Messages");
+
         //Navigation Menu Bar
         nav= findViewById(R.id.AllMessagesNavigationView);
 
@@ -52,6 +58,7 @@ public class AllMessages extends AppCompatActivity {
                 //No Finish() so User can go back
                 if(item.getItemId() == R.id.ContactsNav) {
                     startActivity(new Intent(AllMessages.this, Contacts.class));
+
 
                 }
                 else if (item.getItemId()==R.id.Settings) {
@@ -127,5 +134,19 @@ public class AllMessages extends AppCompatActivity {
 
             }
         });
+    }
+    void ChangeActionBar(String title){
+        // Define ActionBar object
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        actionBar.setTitle(title);
+        // Define ColorDrawable object and parse color
+        // using parseColor method
+        // with color hash code as its parameter
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#2699FB"));
+
+        // Set BackgroundDrawable
+        actionBar.setBackgroundDrawable(colorDrawable);
     }
 }

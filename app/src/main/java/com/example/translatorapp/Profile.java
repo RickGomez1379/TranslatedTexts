@@ -1,9 +1,12 @@
 package com.example.translatorapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +27,9 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         logOutBtn = findViewById(R.id.logOut);
+
+        //Change Action Bar
+        ChangeActionBar("Settings");
 
         //Navigation View
         BottomNavigationView nav = findViewById(R.id.ProfileNavigationView);
@@ -53,5 +59,19 @@ public class Profile extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    void ChangeActionBar(String title){
+        // Define ActionBar object
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+        actionBar.setTitle(title);
+        // Define ColorDrawable object and parse color
+        // using parseColor method
+        // with color hash code as its parameter
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#2699FB"));
+
+        // Set BackgroundDrawable
+        actionBar.setBackgroundDrawable(colorDrawable);
     }
 }
