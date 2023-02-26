@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull UserHolder holder, int position) {
-        holder.username.setText(users.get(position).getEmail());
+        holder.username.setText(users.get(position).getUsername());
+        holder.usersLanguage.setText(getLanguageCode(users.get(position).getLanguageCode()));
         Glide.with(context).load(users.get(position).getProfilePhoto())
                 .error(R.drawable.accounticon).placeholder(R.drawable.accounticon)
                 .into(holder.userPhoto);
@@ -59,6 +61,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> 
 
         TextView username;
         ImageView userPhoto;
+        TextView usersLanguage;
 
         public UserHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +74,56 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> 
             });
             username = itemView.findViewById(R.id.usernameTxt);
             userPhoto = itemView.findViewById((R.id.friendImg));
+            usersLanguage = itemView.findViewById(R.id.usersLanguage);
         }
+    }
+    private String getLanguageCode(int fromLanguage) {
+
+        String languageCode;
+        switch (fromLanguage) {
+            case 11:
+                languageCode = "English";
+                break;
+            case 0:
+                languageCode = "Afrikaans";
+                break;
+            case 1:
+                languageCode = "Arabic";
+                break;
+            case 2:
+                languageCode ="Belarusian";
+                break;
+            case 3:
+                languageCode = "Bulgarian";
+                break;
+            case 4:
+                languageCode = "Bengali";
+                break;
+            case 5:
+                languageCode = "Catalan";
+                break;
+            case 6:
+                languageCode = "Czech";
+                break;
+            case 7:
+                languageCode = "Welsh";
+                break;
+            case 22:
+                languageCode = "Hindi";
+                break;
+            case 56:
+                languageCode = "Urdu";
+                break;
+            case 13:
+                languageCode = "Spanish";
+                break;
+            case 29:
+                languageCode = "Japanese";
+                break;
+            default:
+                languageCode = "Unable to get Language";
+                break;
+        }
+        return languageCode;
     }
 }

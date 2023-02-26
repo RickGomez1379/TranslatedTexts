@@ -33,6 +33,14 @@
             android:textColor="@color/white"
             android:layout_marginLeft="20dp"
             android:layout_gravity="center"></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/usersLanguage"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:layout_gravity="center"></TextView>
+
 
 
     </LinearLayout>

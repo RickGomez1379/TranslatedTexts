@@ -66,6 +66,7 @@ public class AllMessages extends AppCompatActivity {
         //Navigation Menu Bar
         nav= findViewById(R.id.AllMessagesNavigationView);
 
+        //Nav Bar
         nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -159,6 +160,7 @@ public class AllMessages extends AppCompatActivity {
         });
     }
     void ChangeActionBar(String title){
+
         // Define ActionBar object
         ActionBar actionBar;
         actionBar = getSupportActionBar();
