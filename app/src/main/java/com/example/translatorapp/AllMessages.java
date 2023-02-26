@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,6 +37,7 @@ public class AllMessages extends AppCompatActivity {
     private int userLanguage;
     BottomNavigationView nav;
     private String url;
+    private SwipeRefreshLayout swipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,18 @@ public class AllMessages extends AppCompatActivity {
         users = new ArrayList<>();
         bar = findViewById(R.id.messagesProgressBar);
         recyclerView = findViewById(R.id.messagesRecycler);
+
+        //Swipe
+        swipe = findViewById(R.id.swipeLayout);
+
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getUsers();
+                swipe.setRefreshing(false);
+            }
+        });
+
 
         //Change Action Bar
         ChangeActionBar("Messages");
@@ -111,6 +125,10 @@ public class AllMessages extends AppCompatActivity {
 
     //Populates Users Array
     private void getUsers(){
+
+        //Clear Users
+        users.clear();
+
         FirebaseDatabase.getInstance().getReference("user").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
