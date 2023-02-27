@@ -27,9 +27,10 @@ public class Register extends AppCompatActivity {
     private EditText password;
     private EditText reenterPassword;
     private EditText username;
-    String[] Languages = { "English", "Afrikaans", "Arabic", "Belarusian", "Bulgarian",
+    String[] Languages = { "Languages","English", "Afrikaans", "Arabic", "Belarusian", "Bulgarian",
             "Bengali", "Catalan", "Czech", "Welsh", "Hindi", "Urdu", "Spanish", "Japanese"};
     private int languageCode = 1;
+    private String languageCheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,9 @@ public class Register extends AppCompatActivity {
                     Toast.makeText(Register.this, "Please Enter a Password. ", Toast.LENGTH_SHORT).show();
                 else if(!password.getText().toString().equals(reenterPassword.getText().toString()))
                     Toast.makeText(Register.this, "Password Entries are not the same. Please Re-enter your Password. ", Toast.LENGTH_SHORT).show();
-                else
+                else if (languageCheck == "Languages") {
+                    Toast.makeText(Register.this, "Please Enter Your Preferred Language. ", Toast.LENGTH_SHORT).show();
+                } else
                     HandleRegister();
             }
         });
@@ -72,7 +75,10 @@ public class Register extends AppCompatActivity {
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                languageCode = getLanguageCode(Languages[position]);
+                if(Languages[position] != "Languages")
+                    languageCode = getLanguageCode(Languages[position]);
+
+                languageCheck = Languages[position];
             }
 
             @Override
